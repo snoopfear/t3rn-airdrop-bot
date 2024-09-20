@@ -19,6 +19,11 @@ const RPC_URL = T3RN_ABI.at(-1).RPC_OPSP;
 const provider = new JsonRpcProvider(RPC_URL);
 const CONTRACT_ADDRESS = T3RN_ABI.at(-1).CA_OPSP;
 
+// Function to generate a random delay between min and max seconds
+const randomDelay = (minSeconds, maxSeconds) => {
+  return Math.floor(Math.random() * (maxSeconds - minSeconds + 1) + minSeconds) * 1000;
+};
+
 (async () => {
   displayHeader();
   console.log('⏳ Please wait...'.yellow);
@@ -134,7 +139,10 @@ const CONTRACT_ADDRESS = T3RN_ABI.at(-1).CA_OPSP;
             counter--;
 
             if (counter > 0) {
-              await delay(30000);
+              // Apply random delay
+              const delayTime = randomDelay(15, 30);
+              console.log(`⏳ Waiting for ${delayTime / 1000} seconds...`.yellow);
+              await new Promise(resolve => setTimeout(resolve, delayTime));
             }
           } catch (error) {
             console.log(
